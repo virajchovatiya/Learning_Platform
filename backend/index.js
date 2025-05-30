@@ -13,7 +13,7 @@ import { adminRouter } from './src/routes/admin.route.js';
 dotenv.config();
 
 const app = express();
-const PORT = 8080 || process.env.PORT;
+const PORT = process.env.PORT || 8080;
 
 app.use(cors({
     origin:"http://localhost:5173",
