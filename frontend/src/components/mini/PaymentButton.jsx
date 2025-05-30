@@ -21,7 +21,7 @@ export const PaymentButton = ({ setIsEnrolled }) => {
         {
             const course_id = e.target.id;
             
-            const { data } = await axios.post("http://localhost:8080/api/payment/create-order", {
+            const { data } = await axios.post("https://brightedge-backend.onrender.com/api/payment/create-order", {
                 course_id : course_id
             }, {
                 withCredentials : true
@@ -49,7 +49,7 @@ export const PaymentButton = ({ setIsEnrolled }) => {
                     console.log(response);
 
                     try {
-                        const verification = await axios.post("http://localhost:8080/api/payment/verify-payment", {
+                        const verification = await axios.post("https://brightedge-backend.onrender.com/api/payment/verify-payment", {
                           razorpay_order_id: response.razorpay_order_id,
                           razorpay_payment_id: response.razorpay_payment_id,
                           razorpay_signature: response.razorpay_signature,

@@ -19,7 +19,7 @@ export default function ChangePasswordModal({ setIsChangePassword }) {
     
     try {
 
-        const response = await axios.post("http://localhost:8080/api/user/changePassword", {
+        const response = await axios.post("https://brightedge-backend.onrender.com/api/user/changePassword", {
             oldPassword,
             newPassword,
         }, {

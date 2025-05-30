@@ -15,7 +15,7 @@ export const CourseDetailPage = () => {
 
   const getCourseData = async () => {
     try {
-      const response = await axios.get(`http://localhost:8080/api/course/getCourseData?course_id=${course_id}`, {
+      const response = await axios.get(`https://brightedge-backend.onrender.com/api/course/getCourseData?course_id=${course_id}`, {
         withCredentials: true,
       });
 

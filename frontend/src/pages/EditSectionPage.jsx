@@ -24,7 +24,7 @@ const EditSectionPage = () => {
 
     try
     {
-      const res = await axios.get(`http://localhost:8080/api/instructor/deleteSection/${sectionId}`, {
+      const res = await axios.get(`https://brightedge-backend.onrender.com/api/instructor/deleteSection/${sectionId}`, {
         withCredentials: true,
       });
 
@@ -45,7 +45,7 @@ const EditSectionPage = () => {
     
     try {
       
-      const res = await axios.post(`http://localhost:8080/api/instructor/getSections`, {
+      const res = await axios.post(`https://brightedge-backend.onrender.com/api/instructor/getSections`, {
         course_id: courseId,
       }, {
         withCredentials: true,
@@ -68,7 +68,7 @@ const EditSectionPage = () => {
 
     try {
       
-      const res = await axios.post(`http://localhost:8080/api/instructor/addSection`, {
+      const res = await axios.post(`https://brightedge-backend.onrender.com/api/instructor/addSection`, {
         section_name: newSectionName,
         course_id: courseId,
         section_number: sections.length + 1,

@@ -11,7 +11,7 @@ export default function AdminCourses() {
 
   const fetchCourses = async () => {
     try {
-      const res = await axios.get("http://localhost:8080/api/admin/getCourses", { 
+      const res = await axios.get("https://brightedge-backend.onrender.com/api/admin/getCourses", { 
         headers : {
           Authorization : `Bearer ${getTokenFromLocal()}`
         },
@@ -25,7 +25,7 @@ export default function AdminCourses() {
 
     const handleDelete = async (course_id) => {
       try {
-          const res = await axios.get(`http://localhost:8080/api/admin/deleteCourse?course_id=${course_id}`, {
+          const res = await axios.get(`https://brightedge-backend.onrender.com/api/admin/deleteCourse?course_id=${course_id}`, {
             headers : {
               Authorization : `Bearer ${getTokenFromLocal()}`
           },

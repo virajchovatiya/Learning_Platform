@@ -54,14 +54,14 @@ export const QuestionCreationPage = () => {
     try {
       if (isEditing !== null) {
         await axios.put(
-          `http://localhost:8080/api/exam/update-exam-question`,
+          `https://brightedge-backend.onrender.com/api/exam/update-exam-question`,
           { question_id: isEditing, question, options, answer },
           { withCredentials: true }
         );
         toast.success("Question updated successfully!");
       } else {
         await axios.post(
-          'http://localhost:8080/api/exam/add-question',
+          'https://brightedge-backend.onrender.com/api/exam/add-question',
           { ...questionData, exam_id: examId },
           { withCredentials: true }
         );
@@ -81,7 +81,7 @@ export const QuestionCreationPage = () => {
   const fetchQuestions = async () => {
     try {
       const response = await axios.post(
-        `http://localhost:8080/api/exam/get-questions`,
+        `https://brightedge-backend.onrender.com/api/exam/get-questions`,
         { exam_id: examId },
         { withCredentials: true }
       );
@@ -104,7 +104,7 @@ export const QuestionCreationPage = () => {
   const handleDelete = async (id) => {
 
     try {
-      await axios.get(`http://localhost:8080/api/exam/deleteQuestion/${id}`, {
+      await axios.get(`https://brightedge-backend.onrender.com/api/exam/deleteQuestion/${id}`, {
         withCredentials : true
       });
       toast.success("Question deleted.");

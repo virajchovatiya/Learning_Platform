@@ -43,7 +43,7 @@ export const LoginPage = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post('http://localhost:8080/api/user/login', formData, {
+      const response = await axios.post('https://brightedge-backend.onrender.com/api/user/login', formData, {
         withCredentials: true
       });
 
@@ -63,7 +63,7 @@ export const LoginPage = () => {
 
   const handleSendMail = async () => {
     try {
-      const response = await axios.post('http://localhost:8080/api/user/forget-password-request', { email: formData.email });
+      const response = await axios.post('https://brightedge-backend.onrender.com/api/user/forget-password-request', { email: formData.email });
       toast.success("Email is sent successfully");
       setMessage(response.data.message);
     } catch (error) {

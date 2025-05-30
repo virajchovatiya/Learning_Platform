@@ -26,7 +26,7 @@ const CourseUpdateForm = () => {
 
     const loadCategory = async () => {
       try {
-        const res = await axios.get("http://localhost:8080/api/course/loadCategory", {
+        const res = await axios.get("https://brightedge-backend.onrender.com/api/course/loadCategory", {
           withCredentials: true,
         });
         
@@ -46,7 +46,7 @@ const CourseUpdateForm = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const res = await axios.get(`http://localhost:8080/api/course/getCourseData?course_id=${courseId}`, {
+        const res = await axios.get(`https://brightedge-backend.onrender.com/api/course/getCourseData?course_id=${courseId}`, {
           withCredentials: true,
         });
         
@@ -104,7 +104,7 @@ const CourseUpdateForm = () => {
         formData.append("course_intro", courseData.course_intro);
       }
 
-      await axios.put("http://localhost:8080/api/instructor/updateCourse", formData, {
+      await axios.put("https://brightedge-backend.onrender.com/api/instructor/updateCourse", formData, {
         headers: { "Content-Type": "multipart/form-data" },
         withCredentials: true,
       });

@@ -71,7 +71,7 @@ const EditContentPage = () => {
       formData.append("position", content.length + 1);
 
       try {
-        const res = await axios.post(`http://localhost:8080/api/instructor/addSectionContent`, formData, {
+        const res = await axios.post(`https://brightedge-backend.onrender.com/api/instructor/addSectionContent`, formData, {
           withCredentials: true,
         });
 
@@ -93,7 +93,7 @@ const EditContentPage = () => {
 
   const getContentData = async () => {
     try {
-      const res = await axios.post(`http://localhost:8080/api/instructor/getSectionContent`, {
+      const res = await axios.post(`https://brightedge-backend.onrender.com/api/instructor/getSectionContent`, {
         section_id: sectionId,
       }, {
         withCredentials: true,
@@ -107,7 +107,7 @@ const EditContentPage = () => {
 
   const handleDeleteContent = async (contentId) => {
     try {
-      const res = await axios.get(`http://localhost:8080/api/instructor/deleteSectionContent/${contentId}`, {
+      const res = await axios.get(`https://brightedge-backend.onrender.com/api/instructor/deleteSectionContent/${contentId}`, {
         withCredentials: true,
       });
 

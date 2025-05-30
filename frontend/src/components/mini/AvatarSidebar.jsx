@@ -23,7 +23,7 @@ export const AvatarSidebar = ({ profile_url }) => {
             const formData = new FormData();
             formData.append("profile_image", file);
            
-            const response = await axios.post('http://localhost:8080/api/user/uploadProfilePicture', formData, {
+            const response = await axios.post('https://brightedge-backend.onrender.com/api/user/uploadProfilePicture', formData, {
                 withCredentials: true,
             });
 

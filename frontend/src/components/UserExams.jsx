@@ -11,7 +11,7 @@ export const UserExams = () => {
   useEffect(() => {
     const fetchExams = async () => {
       try {
-        const response = await axios.get('http://localhost:8080/api/exam/get-enrolled-exam', {
+        const response = await axios.get('https://brightedge-backend.onrender.com/api/exam/get-enrolled-exam', {
           withCredentials: true,
         });
         const tempExams = response.data.enrolledExams.map((exam) => exam.exam_id);

@@ -11,7 +11,7 @@ export const MyCourses = () => {
   const getMyCourses = async () => {
     try {
       const response = await axios.get(
-        'http://localhost:8080/api/instructor/getInstructorCourses',
+        'https://brightedge-backend.onrender.com/api/instructor/getInstructorCourses',
         { withCredentials: true }
       );
       setCourses(response.data.data);

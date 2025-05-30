@@ -69,7 +69,7 @@ export const Navbar = () => {
 
   const handleLogout = async () => {
     try {
-      const response = await axios.get('http://localhost:8080/api/user/logout', { withCredentials: true });
+      const response = await axios.get('https://brightedge-backend.onrender.com/api/user/logout', { withCredentials: true });
       if (response.data.status === 200) {
         navigate('/login');
       }

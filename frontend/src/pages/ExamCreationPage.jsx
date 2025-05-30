@@ -24,7 +24,7 @@ export const ExamCreationPage = () => {
 
     try {
         
-        const response = await axios.post('http://localhost:8080/api/exam/create-exam', formData, {
+        const response = await axios.post('https://brightedge-backend.onrender.com/api/exam/create-exam', formData, {
           withCredentials: true
         });
 

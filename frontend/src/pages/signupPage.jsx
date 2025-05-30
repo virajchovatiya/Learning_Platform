@@ -46,7 +46,7 @@ export const SignupPage = () => {
     e.preventDefault();
 
     try {
-      const response = await axios.post('http://localhost:8080/api/user/signup', formData);
+      const response = await axios.post('https://brightedge-backend.onrender.com/api/user/signup', formData);
 
       if (response.data.status === 201) {
         toast.success("Signed up successfully!");

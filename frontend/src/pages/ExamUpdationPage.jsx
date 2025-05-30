@@ -20,7 +20,7 @@ export const ExamUpdatePage = () => {
     const fetchExam = async () => {
       try {
         const res = await axios.get(
-          `http://localhost:8080/api/exam/get-exam/${examId}`,
+          `https://brightedge-backend.onrender.com/api/exam/get-exam/${examId}`,
           { withCredentials: true }
         );
 
@@ -62,7 +62,7 @@ export const ExamUpdatePage = () => {
 
     try {
       const response = await axios.put(
-        `http://localhost:8080/api/exam/update-exam/${examId}`,
+        `https://brightedge-backend.onrender.com/api/exam/update-exam/${examId}`,
         formData,
         { withCredentials: true }
       );

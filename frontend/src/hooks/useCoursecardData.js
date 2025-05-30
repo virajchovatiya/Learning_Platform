@@ -13,7 +13,7 @@ export function useCourseCardData() {
     try {
       // Fetch all courses
       const randomCourseRes = await axios.post(
-        "http://localhost:8080/api/course/getCourses",
+        "https://brightedge-backend.onrender.com/api/course/getCourses",
         { search_query },
         { withCredentials: true }
       );
@@ -26,7 +26,7 @@ export function useCourseCardData() {
 
       if(role == "instructor") {
         const instructorCoursesResponse = await axios.get(
-          "http://localhost:8080/api/instructor/getInstructorCourses",
+          "https://brightedge-backend.onrender.com/api/instructor/getInstructorCourses",
           { withCredentials: true }
         );
 
@@ -39,7 +39,7 @@ export function useCourseCardData() {
 
       // Fetch enrolled courses
       const enrolledCourseRes = await axios.get(
-        "http://localhost:8080/api/course/getEnrolledCourses",
+        "https://brightedge-backend.onrender.com/api/course/getEnrolledCourses",
         { withCredentials: true }
       );
 

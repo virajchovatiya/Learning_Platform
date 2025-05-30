@@ -12,7 +12,7 @@ export const PerformancePage = () => {
     const fetchSubmissions = async () => {
       try {
         const res = await axios.get(
-          `http://localhost:8080/api/exam/get-exam-submissions/${examId}`,
+          `https://brightedge-backend.onrender.com/api/exam/get-exam-submissions/${examId}`,
           { withCredentials: true }
         );
         console.log("Submissions Data:", res.data);

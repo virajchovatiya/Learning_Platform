@@ -11,7 +11,7 @@ export const RoleContextProvider = ({ children }) => {
 
         try {
           
-          const response = await axios.get("http://localhost:8080/api/user/userRole", {
+          const response = await axios.get("https://brightedge-backend.onrender.com/api/user/userRole", {
             withCredentials: true
           });
 

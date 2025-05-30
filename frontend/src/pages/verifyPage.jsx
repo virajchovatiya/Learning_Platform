@@ -44,7 +44,7 @@ function VerifyPage() {
     }
 
     try {
-      const response = await axios.post("http://localhost:8080/api/user/verifyOtp", { email, userOtp: otpValue });
+      const response = await axios.post("https://brightedge-backend.onrender.com/api/user/verifyOtp", { email, userOtp: otpValue });
         console.log(response);
 
         if(location.state?.origin == "signup"){
@@ -68,7 +68,7 @@ function VerifyPage() {
     setIsResending(true);
     setError("");
     try {
-      const response = await axios.post("http://localhost:8080/api/user/resendOtp", { email });
+      const response = await axios.post("https://brightedge-backend.onrender.com/api/user/resendOtp", { email });
       alert("OTP resent successfully! Please check your email.");
       console.log(response.data);
     } catch (err) {

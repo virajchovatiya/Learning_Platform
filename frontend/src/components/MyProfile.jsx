@@ -21,7 +21,7 @@ export const MyProfile = () => {
 
   const getUserDetails = async () => {
     try {
-      const response = await axios.get("http://localhost:8080/api/user/getProfileInfo", {
+      const response = await axios.get("https://brightedge-backend.onrender.com/api/user/getProfileInfo", {
         withCredentials: true,
       });
       if (response.data?.userData) {
@@ -42,7 +42,7 @@ export const MyProfile = () => {
         formData.append("qualification_doc", user.qualification_doc);
       }
 
-      await axios.post("http://localhost:8080/api/user/updateProfile", formData, {
+      await axios.post("https://brightedge-backend.onrender.com/api/user/updateProfile", formData, {
         withCredentials: true,
         headers: {
           'Content-Type': 'multipart/form-data'

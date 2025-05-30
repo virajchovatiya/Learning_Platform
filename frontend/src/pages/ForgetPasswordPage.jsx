@@ -32,7 +32,7 @@ export const ForgetPasswordPage = () => {
 
     try {
       setLoading(true);
-      const res = await axios.post("http://localhost:8080/api/user/reset-password", {
+      const res = await axios.post("https://brightedge-backend.onrender.com/api/user/reset-password", {
         user_id : token,
         new_password : newPassword
       });

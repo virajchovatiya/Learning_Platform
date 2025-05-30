@@ -25,7 +25,7 @@ export const ExamLoginPage = () => {
 
   const fetchExam = async () => {
     try {
-      const response = await axios.get(`http://localhost:8080/api/exam/get-exam/${examId}`, {
+      const response = await axios.get(`https://brightedge-backend.onrender.com/api/exam/get-exam/${examId}`, {
         withCredentials: true,
       });
       setExam(response.data.examObj);
@@ -62,7 +62,7 @@ export const ExamLoginPage = () => {
     e.preventDefault();
     try {
       const response = await axios.post(
-        `http://localhost:8080/api/exam/get-enrolled-exam-login`,
+        `https://brightedge-backend.onrender.com/api/exam/get-enrolled-exam-login`,
         {
           exam_id: examId,
           examUsername: userId,

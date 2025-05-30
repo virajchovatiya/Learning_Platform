@@ -16,7 +16,7 @@ export const Home = () => {
 
     try {
 
-      const res = await axios.post('http://localhost:8080/api/course/getCourses', {
+      const res = await axios.post('https://brightedge-backend.onrender.com/api/course/getCourses', {
         search_query : ""
       });
 

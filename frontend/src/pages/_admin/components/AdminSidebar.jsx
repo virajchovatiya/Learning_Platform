@@ -20,7 +20,7 @@ export default function AdminSidebar() {
 
   const handleLogout = async () => {
     // try {
-    //   const res = await axios.get("http://localhost:8080/api/admin/logout", {
+    //   const res = await axios.get("https://brightedge-backend.onrender.com/api/admin/logout", {
     //     headers : {
     //       Authorization : `Bearer ${getTokenFromLocal()}`
     //     },

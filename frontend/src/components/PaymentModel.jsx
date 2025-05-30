@@ -11,7 +11,7 @@ export default function PaymentComponent({ course, setIsEnrolled }) {
   
   const getCourseStatusData = async () => {
     try {
-      const res = await axios.get(`http://localhost:8080/api/course/getCourseStatus?course_id=${course._id}`, {
+      const res = await axios.get(`https://brightedge-backend.onrender.com/api/course/getCourseStatus?course_id=${course._id}`, {
         withCredentials: true,
       });
       setEnrollmentCount(res?.data?.data || 0);

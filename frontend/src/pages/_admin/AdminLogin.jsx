@@ -19,7 +19,7 @@ const AdminLoginPage = () => {
 
     try
     {
-        const res = await axios.post("http://localhost:8080/api/admin/admin-login", {
+        const res = await axios.post("https://brightedge-backend.onrender.com/api/admin/admin-login", {
             email : email,
             password : password
         }); 

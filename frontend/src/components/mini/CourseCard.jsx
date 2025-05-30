@@ -21,7 +21,7 @@ export default function CourseCard({
 
     try {
       
-      const res = await axios.get(`http://localhost:8080/api/instructor/deleteCourse?course_id=${courseId}`, {
+      const res = await axios.get(`https://brightedge-backend.onrender.com/api/instructor/deleteCourse?course_id=${courseId}`, {
         withCredentials : true
       });
 

@@ -70,7 +70,7 @@ const CourseCreationForm = () => {
           formData.append("course_intro", courseData.course_intro);
         }
 
-        const res = await axios.post("http://localhost:8080/api/instructor/addCourse", formData, {
+        const res = await axios.post("https://brightedge-backend.onrender.com/api/instructor/addCourse", formData, {
           withCredentials: true,
           headers: {
             "Content-Type": "multipart/form-data",

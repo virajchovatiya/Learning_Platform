@@ -10,7 +10,7 @@ export const CourseEnrollmentInfoPage = () => {
 
   const fetchEnrollments = async () => {
     try {
-      const res = await axios.get(`http://localhost:8080/api/instructor/getCourseEnrollments?course_id=${course_id}`, {
+      const res = await axios.get(`https://brightedge-backend.onrender.com/api/instructor/getCourseEnrollments?course_id=${course_id}`, {
         withCredentials: true,
       });
       setEnrollments(res.data.enrolledUsers);

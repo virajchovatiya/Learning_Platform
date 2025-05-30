@@ -17,7 +17,7 @@ const AdminAuthProvider = ({ children }) => {
 
         try {
 
-            const response = await axios.get("http://localhost:8080/api/admin/checkAuth",{
+            const response = await axios.get("https://brightedge-backend.onrender.com/api/admin/checkAuth",{
                 headers : {
                     Authorization : `Bearer ${getTokenFromLocal()}`
                 },
@@ -48,7 +48,7 @@ const AdminAuthProvider = ({ children }) => {
     const logout = async () => {
 
         try {
-            await axios.post("http://localhost:8080/api/user/logout");
+            await axios.post("https://brightedge-backend.onrender.com/api/user/logout");
             setAdmin(null);
         } catch (err) {
             console.log(err);

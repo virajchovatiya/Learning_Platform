@@ -12,7 +12,7 @@ export const ExamResultPage = () => {
     const fetchExamResult = async () => {
       try {
         const res = await axios.post(
-          'http://localhost:8080/api/exam/get-exam-result',
+          'https://brightedge-backend.onrender.com/api/exam/get-exam-result',
           { exam_id: examId },
           { withCredentials: true }
         );

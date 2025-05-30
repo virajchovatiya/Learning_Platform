@@ -25,7 +25,7 @@ export const CourseCertificatePage = () => {
   const getCertificationData = async () => {
     try {
       const res = await axios.get(
-        `http://localhost:8080/api/course/course-certificate-data?course_id=${course_id}`,
+        `https://brightedge-backend.onrender.com/api/course/course-certificate-data?course_id=${course_id}`,
         {
           withCredentials: true,
         }

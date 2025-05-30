@@ -16,7 +16,7 @@ export default function Dashboard() {
 
   const fetchStats = async () => {
     try {
-      const res = await axios.get("http://localhost:8080/api/admin/stats", { 
+      const res = await axios.get("https://brightedge-backend.onrender.com/api/admin/stats", { 
         headers : {
           Authorization : `Bearer ${getTokenFromLocal()}`
         },

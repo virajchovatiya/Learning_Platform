@@ -11,7 +11,7 @@ export default function CourseFilters() {
 
   const loadCategory = async () => {
     try {
-      const res = await axios.get("http://localhost:8080/api/course/loadCategory", {
+      const res = await axios.get("https://brightedge-backend.onrender.com/api/course/loadCategory", {
         withCredentials: true,
       });
       if (res.data.categories) {

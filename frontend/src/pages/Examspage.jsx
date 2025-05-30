@@ -16,8 +16,8 @@ export const Examspage = () => {
     const fetchData = async () => {
       try {
         const [examsRes, enrolledRes] = await Promise.all([
-          axios.get('http://localhost:8080/api/exam/get-exams', { withCredentials: true }),
-          axios.get('http://localhost:8080/api/exam/get-enrolled-exam', { withCredentials: true }),
+          axios.get('https://brightedge-backend.onrender.com/api/exam/get-exams', { withCredentials: true }),
+          axios.get('https://brightedge-backend.onrender.com/api/exam/get-enrolled-exam', { withCredentials: true }),
         ]);
 
         setExams(examsRes.data.exams);
@@ -58,7 +58,7 @@ export const Examspage = () => {
   const handleEnroll = async (examId) => {
     try {
       await axios.post(
-        'http://localhost:8080/api/exam/enroll-exam',
+        'https://brightedge-backend.onrender.com/api/exam/enroll-exam',
         { exam_id: examId },
         { withCredentials: true }
       );

@@ -14,7 +14,7 @@ export const MyExams = () => {
   const getExams = async () => {
     try {
       const response = await axios.get(
-        `http://localhost:8080/api/exam/get-my-exams`,
+        `https://brightedge-backend.onrender.com/api/exam/get-my-exams`,
         { withCredentials: true }
       );
       setExams(response.data.exams);
@@ -26,7 +26,7 @@ export const MyExams = () => {
   const onDelete = async (examId) => {
     try {
       await axios.get(
-        `http://localhost:8080/api/exam/delete-exam/${examId}`,
+        `https://brightedge-backend.onrender.com/api/exam/delete-exam/${examId}`,
         { withCredentials: true }
       );
       toast.success("Exam deleted successfully");

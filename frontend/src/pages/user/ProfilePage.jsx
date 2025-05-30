@@ -11,7 +11,7 @@ export const ProfilePage = () => {
   const getUserData = async () => {
     try {
       const res = await axios.get(
-        `http://localhost:8080/api/instructor/getInstructorInfo?instructor_id=${userId}`,
+        `https://brightedge-backend.onrender.com/api/instructor/getInstructorInfo?instructor_id=${userId}`,
         { withCredentials: true }
       );
       setInstructorData(res.data.data);

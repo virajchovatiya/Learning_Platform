@@ -11,7 +11,7 @@ export default function AdminExams() {
 
   const fetchExams = async () => {
     try {
-      const res = await axios.get("http://localhost:8080/api/admin/getExams", { 
+      const res = await axios.get("https://brightedge-backend.onrender.com/api/admin/getExams", { 
         headers : {
           Authorization : `Bearer ${getTokenFromLocal()}`
         },
@@ -29,7 +29,7 @@ export default function AdminExams() {
 
     try
     {
-      const res = await axios.get(`http://localhost:8080/api/admin/deleteExam/${exam_id}`, {
+      const res = await axios.get(`https://brightedge-backend.onrender.com/api/admin/deleteExam/${exam_id}`, {
         headers : {
           Authorization : `Bearer ${getTokenFromLocal()}`
         },

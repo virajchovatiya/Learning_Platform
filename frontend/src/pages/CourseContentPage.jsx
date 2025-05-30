@@ -18,7 +18,7 @@ export const CourseContentPage = () => {
   const getCourseData = async () => {
     try {
       const response = await axios.get(
-        `http://localhost:8080/api/course/getCourseData?course_id=${course_id}`,
+        `https://brightedge-backend.onrender.com/api/course/getCourseData?course_id=${course_id}`,
         { withCredentials: true }
       );
 
@@ -39,7 +39,7 @@ export const CourseContentPage = () => {
   const addInUserProgress = async (content_id) => {
     try {
       const response = await axios.post(
-        `http://localhost:8080/api/course/updateProgress`,
+        `https://brightedge-backend.onrender.com/api/course/updateProgress`,
         {
           course_id : course_id,
           content_id : content_id

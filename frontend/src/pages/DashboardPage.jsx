@@ -25,7 +25,7 @@ const DashboardPage = () => {
 
     try {
       
-      const res = await axios.get("http://localhost:8080/api/user/logout", {
+      const res = await axios.get("https://brightedge-backend.onrender.com/api/user/logout", {
         withCredentials : true
       });
 

@@ -13,7 +13,7 @@ export default function AdminUsers() {
 
   const fetchUsers = async () => {
     try {
-      const res = await axios.get("http://localhost:8080/api/admin/getUsers", { 
+      const res = await axios.get("https://brightedge-backend.onrender.com/api/admin/getUsers", { 
         headers : {
           Authorization : `Bearer ${getTokenFromLocal()}`
         },
@@ -30,7 +30,7 @@ export default function AdminUsers() {
 
     try
     {
-        const res = await axios.get(`http://localhost:8080/api/admin/deleteUser?user_id=${user_id}`, { 
+        const res = await axios.get(`https://brightedge-backend.onrender.com/api/admin/deleteUser?user_id=${user_id}`, { 
           headers : {
             Authorization : `Bearer ${getTokenFromLocal()}`
           },

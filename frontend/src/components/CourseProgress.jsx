@@ -15,7 +15,7 @@ export default function CourseProgress({ course }) {
 
   const getCourseStatusData = async () => {
     try {
-      const res = await axios.get(`http://localhost:8080/api/course/getCourseStatus?course_id=${course_id}`, {
+      const res = await axios.get(`https://brightedge-backend.onrender.com/api/course/getCourseStatus?course_id=${course_id}`, {
         withCredentials: true,
       });
       setEnrollmentCount(res?.data?.data || 0);
@@ -27,7 +27,7 @@ export default function CourseProgress({ course }) {
   const getProgress = async () => {
     try {
       const res = await axios.post(
-        "http://localhost:8080/api/course/getUserProgress",
+        "https://brightedge-backend.onrender.com/api/course/getUserProgress",
         { course_id },
         { withCredentials: true }
       );

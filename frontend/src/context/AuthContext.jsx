@@ -13,7 +13,7 @@ const AuthProvider = ({ children }) => {
 
         try {
 
-            const response = await axios.get("http://localhost:8080/api/user/checkAuth",{
+            const response = await axios.get("https://brightedge-backend.onrender.com/api/user/checkAuth",{
                 withCredentials: true
             });
 
@@ -41,7 +41,7 @@ const AuthProvider = ({ children }) => {
     const logout = async () => {
 
         try {
-            await axios.post("http://localhost:8080/api/user/logout");
+            await axios.post("https://brightedge-backend.onrender.com/api/user/logout");
             setUser(null);
         } catch (err) {
             console.log(err);
