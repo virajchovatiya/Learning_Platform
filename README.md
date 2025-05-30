@@ -1,0 +1,2 @@
+# BrightEdge – Online Learning & Examination Platform
+BrightEdge is a full-stack web application designed to facilitate online learning, course management, and secure examinations. Built with React.js, Node.js, and MongoDB, this platform offers a seamless experience for students and educators.
