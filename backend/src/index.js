@@ -1,14 +1,14 @@
 import express from 'express';
-import connectToDB from './src/config/db_connection.js';
+import connectToDB from './config/db_connection.js';
 import dotenv from 'dotenv';
-import { userRouter } from './src/routes/user.route.js';
+import { userRouter } from './routes/user.route.js';
 import cors from 'cors';
 import cookieParser from 'cookie-parser';
-import { instructorRouter } from './src/routes/instructor.route.js';
-import { courseRouter } from './src/routes/course.route.js';
-import { paymentRouter } from './src/routes/payment.route.js';
-import { examRouter } from './src/routes/exam.route.js';
-import { adminRouter } from './src/routes/admin.route.js';
+import { instructorRouter } from './routes/instructor.route.js';
+import { courseRouter } from './routes/course.route.js';
+import { paymentRouter } from './routes/payment.route.js';
+import { examRouter } from './routes/exam.route.js';
+import { adminRouter } from './routes/admin.route.js';
 
 dotenv.config();
 
