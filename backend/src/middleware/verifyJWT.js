@@ -69,7 +69,7 @@ export const checkAuth = async (req, res) => {
 
     try {
 
-        const userToken = await req.cookies.accessToken;
+        const userToken = req.cookies.accessToken;
 
         // console.log(userToken + ' from checkauth');
 
