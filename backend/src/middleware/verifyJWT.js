@@ -71,7 +71,7 @@ export const checkAuth = async (req, res) => {
 
         const userToken = req.cookies.accessToken;
 
-        // console.log(userToken + ' from checkauth');
+        console.log(userToken + ' from checkauth');
 
         if(!userToken){
             return res.status(401).json({
@@ -82,7 +82,7 @@ export const checkAuth = async (req, res) => {
 
         const isValid = jwt.verify(userToken, process.env.ACESSTOKEN_SECRET);
 
-        // console.log(isValid);
+        console.log(isValid);
 
         if(!isValid){
             return res.status(401).json({
@@ -91,13 +91,13 @@ export const checkAuth = async (req, res) => {
             });
         }
 
-        // console.log(isValid.user_id);
+        console.log(isValid.user_id);
 
         const userData = await user.findOne({
             _id: isValid.user_id 
         }).select('-password -createdAt -updatedAt -role');
 
-        // console.log(userData);
+        console.log(userData);
 
         return res.status(200).json({
             userData,
