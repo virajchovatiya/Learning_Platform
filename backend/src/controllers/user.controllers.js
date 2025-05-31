@@ -16,13 +16,13 @@ import mongoose from 'mongoose';
 
 const signupSchema = z.object({
     full_name: z.string().min(5, "full name must be of length 5").regex(/[a-zA-z ]{5,}/, "please provide characters only"),
-    email:z.string().email("email isn't valid"),
+    email: z.string().email("email isn't valid"),
 });
 
-export async function signupUser(req, res){
+export async function signupUser(req, res) {
 
     try {
-        
+
         const { full_name, email, password } = req.body;
 
         const userData = signupSchema.safeParse({
@@ -30,21 +30,21 @@ export async function signupUser(req, res){
             email,
         });
 
-        if(!userData.success){
+        if (!userData.success) {
             throw new ApiErrorResponse(400, userData.error.issues[0].message)
         }
 
         const { status, message } = validatePassword(password);
 
-        if(!status){
+        if (!status) {
             throw new ApiErrorResponse(400, message);
         }
 
         const isUserExist = await user.findOne({
-            email:email
+            email: email
         });
 
-        if(isUserExist){
+        if (isUserExist) {
             throw new ApiErrorResponse(400, "user already exist");
         }
 
@@ -54,7 +54,7 @@ export async function signupUser(req, res){
             full_name: full_name,
             email: email,
             password: hashedPassword,
-            profile_url:""
+            profile_url: ""
         });
 
         const created_role = await userRoles.create({
@@ -62,11 +62,11 @@ export async function signupUser(req, res){
             role_name: 'student'
         });
 
-        if(!createdUser){
+        if (!createdUser) {
             throw new ApiErrorResponse(500, "user creation failed");
         }
 
-        if(!created_role){
+        if (!created_role) {
             throw new ApiErrorResponse(500, "user role creation failed");
         }
 
@@ -77,16 +77,16 @@ export async function signupUser(req, res){
         const newOtpObj = await otpModel.create({
             user_id: createdUser._id,
             otpNumber: otpNumber,
-            expires:new Date(Date.now() + 5 * 60 * 1000)
+            expires: new Date(Date.now() + 5 * 60 * 1000)
         });
 
         sendMail(createdUser, otpNumber);
 
         return res.status(201).json({
-            status:201,
-            message:"user signed up successfull",
+            status: 201,
+            message: "user signed up successfull",
             createdUser,
-            otp:newOtpObj.otpNumber
+            otp: newOtpObj.otpNumber
         });
 
 
@@ -97,7 +97,7 @@ export async function signupUser(req, res){
     }
 }
 
-export function generateAccessToken(userData, roles){
+export function generateAccessToken(userData, roles) {
 
     const token = jwt.sign(
         {
@@ -105,26 +105,26 @@ export function generateAccessToken(userData, roles){
             role: roles.role_name
         },
         process.env.ACESSTOKEN_SECRET,
-        // {
-        //     expiresIn:"24h"
-        // }
+        {
+            expiresIn: "24h"
+        }
     );
-    
+
     return token;
 
 }
 
-export async function loginUser(req, res){
+export async function loginUser(req, res) {
 
     try {
-        
+
         const { email, password } = req.body;
 
-        if(!email){
+        if (!email) {
             throw new ApiErrorResponse(400, "email is empty");
         }
 
-        if(!password){
+        if (!password) {
             throw new ApiErrorResponse(400, "password is empty");
         }
 
@@ -132,20 +132,20 @@ export async function loginUser(req, res){
             email: email,
         });
 
-        if(!isUserExist){
+        if (!isUserExist) {
             throw new ApiErrorResponse(400, "please signup first");
         }
 
         const isPasswordValid = await bcrypt.compare(password, isUserExist.password);
 
-        if(!isPasswordValid){
+        if (!isPasswordValid) {
             throw new ApiErrorResponse(400, "password is wrong");
         }
 
-        if(isUserExist.verified == false){
+        if (isUserExist.verified == false) {
             return res.status(200).json({
-                isVerified:false,
-                message:'please verify the account'
+                isVerified: false,
+                message: 'please verify the account'
             });
         }
 
@@ -157,24 +157,25 @@ export async function loginUser(req, res){
 
         const options = {
             httpOnly: true,
-            secure:true
+            secure: true,        // Required for HTTPS on Render
+            sameSite: "None"
         }
-        
+
         console.log(accessToken);
 
         return res.status(200).cookie("accessToken", accessToken, options)
-        .json({
-            status:200,
-            message:"login successfull",
-            userData: {
-                _id: isUserExist._id,
-                email: isUserExist.email,
-                role: roles.role_name
-            },
-        });
+            .json({
+                status: 200,
+                message: "login successfull",
+                userData: {
+                    _id: isUserExist._id,
+                    email: isUserExist.email,
+                    role: roles.role_name
+                },
+            });
 
     } catch (error) {
-        
+
         console.log(error);
 
         return res.status(400).json({
@@ -184,52 +185,52 @@ export async function loginUser(req, res){
 
 }
 
-export function logoutUser(req, res){
+export function logoutUser(req, res) {
 
     return res.status(200).clearCookie('accessToken')
-    .json({
-        status:200,
-        message:"logged out successfully"
-    });
+        .json({
+            status: 200,
+            message: "logged out successfully"
+        });
 
 }
 
-export async function updateRole(req, res){
+export async function updateRole(req, res) {
 
     try {
-        
+
         const { email, role } = req.body;
 
         const isUserExist = await user.findOne({
             email: email,
         });
 
-        if(!isUserExist){
+        if (!isUserExist) {
             throw new ApiErrorResponse(400, "user doesn't exist");
         }
 
         const updatedRole = await userRoles.updateOne({ user_id: isUserExist._id }, {
-            $set:{
+            $set: {
                 role_name: role
             }
         });
 
-        if(!updatedRole){
+        if (!updatedRole) {
             throw new ApiErrorResponse(400, "role update failed");
         }
 
         return res.status(200).json({
-            status:200,
-            message:"role updated successfully"
+            status: 200,
+            message: "role updated successfully"
         });
 
     } catch (error) {
-        
+
     }
 
 }
 
-export async function resendOtp(req, res){
+export async function resendOtp(req, res) {
 
     try {
 
@@ -238,30 +239,30 @@ export async function resendOtp(req, res){
         const isUserExist = await user.findOne({
             email: email,
         });
-        
+
         const newOtp = generateOTP();
 
         const storedOtp = await otpModel.updateOne({ user_id: isUserExist._id }, {
-            $set:{
+            $set: {
                 otpNumber: newOtp,
-                expires:new Date(Date.now() + 5 * 60 * 1000)
+                expires: new Date(Date.now() + 5 * 60 * 1000)
             }
         });
 
-        if(!storedOtp){
+        if (!storedOtp) {
             throw new ApiErrorResponse(400, "otp isn't generated! please try after some time");
         }
 
         sendMail(isUserExist, newOtp);
 
         return res.status(200).json({
-            status:200,
-            message:'otp generated and sended to your mail successfully',
+            status: 200,
+            message: 'otp generated and sended to your mail successfully',
             newOtp: newOtp
         });
 
     } catch (error) {
-        
+
         console.log(error);
 
         res.status(400).json(error);
@@ -270,10 +271,10 @@ export async function resendOtp(req, res){
 
 }
 
-export async function verifyUserOTP(req, res){
-    
+export async function verifyUserOTP(req, res) {
+
     try {
-        
+
         const { email, userOtp } = req.body;
 
         console.log(email, userOtp);
@@ -282,21 +283,21 @@ export async function verifyUserOTP(req, res){
             email: email,
         });
 
-        if(!dbUser){
+        if (!dbUser) {
             throw new ApiErrorResponse(400, "signup first");
         }
 
         const dbOtp = await otpModel.findOne({
-            user_id:dbUser._id
+            user_id: dbUser._id
         });
 
-        if(new Date(Date.now()) > dbOtp.expires){
+        if (new Date(Date.now()) > dbOtp.expires) {
             console.log(new Date(Date.now()) > dbOtp.expires);
             console.log(userOtp);
             throw new ApiErrorResponse(400, "otp expired");
         }
 
-        if(userOtp !== dbOtp.otpNumber){
+        if (userOtp !== dbOtp.otpNumber) {
             console.log(userOtp);
             throw new ApiErrorResponse(400, "otp is invalid");
         }
@@ -304,8 +305,8 @@ export async function verifyUserOTP(req, res){
         await user.updateOne({ _id: dbUser._id }, { $set: { verified: true } })
 
         return res.status(200).json({
-            status:200,
-            message:"user verified successfully",
+            status: 200,
+            message: "user verified successfully",
         })
 
     } catch (error) {
@@ -326,27 +327,27 @@ export const getProfileInfo = async (req, res) => {
         }).select('-password -createdAt -updatedAt');
 
         const userRoleData = await userRoles.findOne({
-            user_id : req.user_id
+            user_id: req.user_id
         });
-        
+
         const userObject = userData.toObject();
 
-        userObject.role = req.user_role; 
+        userObject.role = req.user_role;
         userObject.work_experience = userRoleData.work_experience;
         userObject.qualification_doc = userRoleData.qualification_doc;
-        
+
         return res.status(200).json({
             userData: userObject,
             status: 200
         });
-        
+
     } catch (error) {
-        
+
         console.log(error);
 
         return res.status(400).json({
-            error:"error while getting info",
-            status:400,
+            error: "error while getting info",
+            status: 400,
         })
     }
 
@@ -366,32 +367,31 @@ export const handleProfilePictureUpload = async (req, res) => {
             image_url = await uploadToCloudinary(req.file.path, "profile_pictures", "image");
         }
 
-        if(image_url)
-        {
-            const updatedUser = await user.updateOne({ _id: req.user_id }, 
-                { 
-                    $set: { 
-                        profile_url: image_url 
-                    }    
+        if (image_url) {
+            const updatedUser = await user.updateOne({ _id: req.user_id },
+                {
+                    $set: {
+                        profile_url: image_url
+                    }
                 });
 
-            if(updatedUser){
+            if (updatedUser) {
                 return res.status(200).json({
-                    status:200,
-                    message:"profile picture updated successfully",
-                    imageUrl:image_url
+                    status: 200,
+                    message: "profile picture updated successfully",
+                    imageUrl: image_url
                 });
             }
         }
 
 
     } catch (error) {
-        
+
         console.log(error);
 
         return res.status(400).json({
-            error:"error while uploading profile picture",
-            status:400,
+            error: "error while uploading profile picture",
+            status: 400,
         })
 
     }
@@ -401,48 +401,48 @@ export const handleProfilePictureUpload = async (req, res) => {
 
 export const handleForgetPassword = async (req, res) => {
 
-    
-        try {
-    
-            const { user_id, new_password } = req.body;
-    
-            const dbUser = await user.findOne({
-                _id : user_id,
-            });
-    
-            if(!dbUser){
-                throw new ApiErrorResponse(400, "user doesn't exist");
-            }
-    
-            const hashedPassword = await bcrypt.hash(new_password, 10);
-    
-            const updatedUser = await user.updateOne({ _id: dbUser._id }, 
-                { 
-                    $set: { 
-                        password: hashedPassword 
-                    }    
-                });
-    
-            if(updatedUser){
-    
-                console.log('password changed success');
-    
-                return res.status(200).json({
-                    status:200,
-                    message:"password updated successfully",
-                });
-            }
-            
-        } catch (error) {
-            
-            console.log(error);
-    
-            return res.status(400).json({
-                error:error.message || "error while updating password",
-                status:400,
-            })
-    
+
+    try {
+
+        const { user_id, new_password } = req.body;
+
+        const dbUser = await user.findOne({
+            _id: user_id,
+        });
+
+        if (!dbUser) {
+            throw new ApiErrorResponse(400, "user doesn't exist");
         }
+
+        const hashedPassword = await bcrypt.hash(new_password, 10);
+
+        const updatedUser = await user.updateOne({ _id: dbUser._id },
+            {
+                $set: {
+                    password: hashedPassword
+                }
+            });
+
+        if (updatedUser) {
+
+            console.log('password changed success');
+
+            return res.status(200).json({
+                status: 200,
+                message: "password updated successfully",
+            });
+        }
+
+    } catch (error) {
+
+        console.log(error);
+
+        return res.status(400).json({
+            error: error.message || "error while updating password",
+            status: 400,
+        })
+
+    }
 
 }
 
@@ -457,29 +457,29 @@ export const handleForgetPasswordRequest = async (req, res) => {
             email: email
         });
 
-        if(!dbUser){
+        if (!dbUser) {
             throw new ApiErrorResponse(400, "user doesn't exist");
         }
 
         sendMailForForgetPassword(dbUser);
 
         return res.status(200).json({
-            status:200,
-            message:"verification link it sent to your email",
+            status: 200,
+            message: "verification link it sent to your email",
         });
 
     } catch (error) {
-        
+
         console.log(error);
 
         return res.status(400).json({
-            error:error.message || "error while generating otp",
-            status:400,
+            error: error.message || "error while generating otp",
+            status: 400,
         })
 
     }
 
-}   
+}
 
 export const handleChangePassword = async (req, res) => {
 
@@ -493,36 +493,36 @@ export const handleChangePassword = async (req, res) => {
 
         const isPasswordValid = await bcrypt.compare(oldPassword, dbUser.password);
 
-        if(!isPasswordValid){
+        if (!isPasswordValid) {
             throw new ApiErrorResponse(400, "old password is wrong");
         }
 
         const hashedPassword = await bcrypt.hash(newPassword, 10);
 
-        const updatedUser = await user.updateOne({ _id: req.user_id }, 
-            { 
-                $set: { 
-                    password: hashedPassword 
-                }    
+        const updatedUser = await user.updateOne({ _id: req.user_id },
+            {
+                $set: {
+                    password: hashedPassword
+                }
             });
 
-        if(updatedUser){
+        if (updatedUser) {
 
             console.log('password changed success');
 
             return res.status(200).json({
-                status:200,
-                message:"password updated successfully",
+                status: 200,
+                message: "password updated successfully",
             });
         }
-        
+
     } catch (error) {
-        
+
         console.log(error);
 
         return res.status(400).json({
-            error:error.message || "error while updating password",
-            status:400,
+            error: error.message || "error while updating password",
+            status: 400,
         })
 
     }
@@ -532,47 +532,47 @@ export const handleChangePassword = async (req, res) => {
 export const handleProfileUpdate = async (req, res) => {
 
     try {
-        
+
         let { full_name, qualification_doc } = req.body;
 
         const new_doc = req.file;
 
-        if(new_doc) {
+        if (new_doc) {
             qualification_doc = await uploadToAppWrite(new_doc);
         }
 
-        const updatedUser = await user.updateOne({ _id: req.user_id }, 
-            { 
-                $set: { 
+        const updatedUser = await user.updateOne({ _id: req.user_id },
+            {
+                $set: {
                     full_name: full_name,
-                }    
+                }
             });
 
         const { work_experience } = req.body;
 
         await userRoles.updateOne({
-            user_id : req.user_id
+            user_id: req.user_id
         }, {
-            $set : {
-                work_experience : work_experience,
-                qualification_doc : qualification_doc
+            $set: {
+                work_experience: work_experience,
+                qualification_doc: qualification_doc
             }
         })
 
-        if(updatedUser){
+        if (updatedUser) {
             return res.status(200).json({
-                status:200,
-                message:"profile updated successfully",
+                status: 200,
+                message: "profile updated successfully",
             });
         }
 
     } catch (error) {
-        
+
         console.log(error);
 
         return res.status(400).json({
-            error:"error while updating profile",
-            status:400,
+            error: "error while updating profile",
+            status: 400,
         })
 
     }
@@ -582,34 +582,34 @@ export const handleProfileUpdate = async (req, res) => {
 export async function upgradeRole(req, res) {
 
     try {
-        
+
         const { aadharNumber, work_experience } = req.body;
 
         const qualification_doc = req.file;
-        
-        if(!aadharNumber) {
-            return ;
+
+        if (!aadharNumber) {
+            return;
         }
 
-        if(aadharNumber.length != 12){
+        if (aadharNumber.length != 12) {
             throw new Error("please enter valid number");
         }
 
-        if(!qualification_doc){
+        if (!qualification_doc) {
             throw new Error("please upload qualification document");
         }
 
         const uploadedUrl = await uploadToAppWrite(qualification_doc);
 
-        if(!uploadedUrl){
+        if (!uploadedUrl) {
             throw new Error("error while uploading document");
         }
 
         await userRoles.updateOne({
-            user_id:req.user_id
+            user_id: req.user_id
         }, {
-            $set : {
-                role_name:"instructor",
+            $set: {
+                role_name: "instructor",
                 identityNumber: aadharNumber,
                 work_experience: work_experience || "",
                 qualification_doc: uploadedUrl
@@ -618,22 +618,22 @@ export async function upgradeRole(req, res) {
 
         const userObj = await user.findById(req.user_id);
 
-        const roles = await userRoles.findOne({ user_id : req.user_id });
+        const roles = await userRoles.findOne({ user_id: req.user_id });
 
         const accessToken = generateAccessToken(userObj, roles);
 
         const options = {
             httpOnly: true
         }
-        
+
         return res.status(200)
-        .cookie("accessToken", accessToken, options)
-        .json({
-            message: "upgraded role successfully"
-        });
+            .cookie("accessToken", accessToken, options)
+            .json({
+                message: "upgraded role successfully"
+            });
 
     } catch (error) {
-        
+
         return res.status(400).json({
             message: error.message
         });
@@ -645,15 +645,15 @@ export async function upgradeRole(req, res) {
 export const getUserStats = async (req, res) => {
 
     try {
-        
+
         const userrole = req.user_role;
 
         const enrolledCourseCount = await Enrollment.countDocuments({
-            student_id : req.user_id
+            student_id: req.user_id
         });
 
         const enrolledExamsCount = await ExamEnrollment.countDocuments({
-            user_id : req.user_id
+            user_id: req.user_id
         });
 
         let totalCourseCount;
@@ -661,76 +661,75 @@ export const getUserStats = async (req, res) => {
         let totalEnrolledStudents;
         let courseStats;
 
-        let statsObj = {            
+        let statsObj = {
             enrolledCourseCount,
             enrolledExamsCount
         };
 
 
-        if(userrole == "instructor")
-        {
+        if (userrole == "instructor") {
             totalCourseCount = await courses.countDocuments({
-                instructor_id : req.user_id
+                instructor_id: req.user_id
             });
 
-            
+
             const courseStats = await Enrollment.aggregate([
                 // Lookup course details
                 {
-                  $lookup: {
-                    from: "courses",
-                    localField: "course_id",
-                    foreignField: "_id",
-                    as: "courseDetails"
-                  }
+                    $lookup: {
+                        from: "courses",
+                        localField: "course_id",
+                        foreignField: "_id",
+                        as: "courseDetails"
+                    }
                 },
                 { $unwind: "$courseDetails" },
-              
+
                 // Match only the instructor's courses
                 {
-                  $match: {
-                    "courseDetails.instructor_id": new mongoose.Types.ObjectId(req.user_id)
-                  }
+                    $match: {
+                        "courseDetails.instructor_id": new mongoose.Types.ObjectId(req.user_id)
+                    }
                 },
-              
+
                 // Group by course and compute totals
                 {
-                  $group: {
-                    _id: "$course_id",
-                    totalStudents: { $sum: 1 },
-                    courseDetails: { $first: "$courseDetails" }
-                  }
+                    $group: {
+                        _id: "$course_id",
+                        totalStudents: { $sum: 1 },
+                        courseDetails: { $first: "$courseDetails" }
+                    }
                 },
-              
+
                 // Project final result
                 {
-                  $project: {
-                    course_name: "$courseDetails.course_name",
-                    price: "$courseDetails.price",
-                    totalStudents: 1,
-                    totalEarnings: { $multiply: ["$totalStudents", "$courseDetails.price"] }
-                  }
+                    $project: {
+                        course_name: "$courseDetails.course_name",
+                        price: "$courseDetails.price",
+                        totalStudents: 1,
+                        totalEarnings: { $multiply: ["$totalStudents", "$courseDetails.price"] }
+                    }
                 }
-              ]);
-              
+            ]);
+
             //   console.log(courseStats);
 
-              
-              totalExamCount = await Exam.countDocuments({
-                  user_id : req.user_id
-              });
-              
-                statsObj = {
-                    ...statsObj,
-                    totalCourseCount,
-                    totalExamCount,
-                    totalEarnings : courseStats.reduce((acc, courseStat) => acc + courseStat.totalEarnings, 0)
-                }
+
+            totalExamCount = await Exam.countDocuments({
+                user_id: req.user_id
+            });
+
+            statsObj = {
+                ...statsObj,
+                totalCourseCount,
+                totalExamCount,
+                totalEarnings: courseStats.reduce((acc, courseStat) => acc + courseStat.totalEarnings, 0)
+            }
         }
 
         return res.status(200).json({
-            success : true,
-            data : statsObj
+            success: true,
+            data: statsObj
         });
 
 
@@ -738,41 +737,39 @@ export const getUserStats = async (req, res) => {
 
         return res.status(400).json({
             message: error.message
-        }); 
+        });
     }
 
 }
 
 export const getInstructorInfo = async (req, res) => {
 
-    try
-    {
+    try {
         const { instructor_id } = req.query;
 
         const dbData = await userRoles.findOne({
-            user_id : instructor_id
+            user_id: instructor_id
         }).populate('user_id');
 
         const data = {
-            user_id : dbData.user_id._id,
-            profile_url : dbData.user_id.profile_url,
-            email : dbData.user_id.email,
-            name : dbData.user_id.full_name,
-            work_experience : dbData.work_experience,
-            qualification_doc : dbData.qualification_doc
+            user_id: dbData.user_id._id,
+            profile_url: dbData.user_id.profile_url,
+            email: dbData.user_id.email,
+            name: dbData.user_id.full_name,
+            work_experience: dbData.work_experience,
+            qualification_doc: dbData.qualification_doc
         }
 
         return res.status(200).json({
-            success : true,
-            data : data
+            success: true,
+            data: data
         });
 
     }
-    catch(error)
-    {
+    catch (error) {
         return res.status(400).json({
-            success : false,
-            message : error.message
+            success: false,
+            message: error.message
         });
     }
 
